@@ -2,6 +2,12 @@ package telnet;
 
 import telnet.constantes.Parametros;
 
+/**
+ * Gestion de la conexion Telnet.
+ * 
+ * @author dmuelas1
+ *
+ */
 public class Telnet implements Parametros {
 	private String usuario;
 	private String password;
@@ -11,6 +17,9 @@ public class Telnet implements Parametros {
 	private int soTimeout;
 	private int soLinger;
 
+	/**
+	 * Gestion de la conexion Telnet
+	 */
 	public Telnet() {
 		this.usuario = "";
 		this.password = "";
@@ -23,7 +32,6 @@ public class Telnet implements Parametros {
 
 	/**
 	 * Usuario de la sesion en la maquina remota.
-	 * <p>
 	 * 
 	 * @return String : Usuario
 	 */
@@ -33,7 +41,6 @@ public class Telnet implements Parametros {
 
 	/**
 	 * Usuario de la sesion en la maquina remota.
-	 * <p>
 	 * 
 	 * @param usuario : String : Usuario.
 	 */
@@ -44,28 +51,35 @@ public class Telnet implements Parametros {
 	/**
 	 * Password de la sesion iniciada en la maquina remota.
 	 * 
-	 * @return String : Password
+	 * @return String : Retorna el password
 	 */
 	public String getPassword() {
 		return password + '\r';
 	}
 
 	/**
-	 * @param password
+	 * 
+	 * Password de la sesion iniciada en la maquina remota.
+	 * 
+	 * @param password Modifica el password
 	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
 	/**
-	 * @return the comando
+	 * Comando para la negociacion.
+	 * 
+	 * @return Retorna el comando
 	 */
 	public String getComando() {
 		return this.comando;
 	}
 
 	/**
-	 * @param comando the comando to set
+	 * Comando para la negociacion.
+	 * 
+	 * @param comando : String : Comando para insertar.
 	 */
 	public void setComando(String comando) {
 		this.comando = comando + '\r';
@@ -76,10 +90,11 @@ public class Telnet implements Parametros {
 	 * <p>
 	 * En caso de que el valor sea nulo se entendera que es el loopback de la
 	 * maquina local.
+	 * </p>
 	 * <p>
 	 * En caso de que el valor no cumpla con el formato InetAddress se generara una
 	 * excepcion en el momento de la conexion.
-	 * <p>
+	 * </p>
 	 * 
 	 * @return String : Host remoto.
 	 */
@@ -92,10 +107,11 @@ public class Telnet implements Parametros {
 	 * <p>
 	 * En caso de que el valor sea nulo se entendera que es el loopback de la
 	 * maquina local.
+	 * </p>
 	 * <p>
 	 * En caso de que el valor no cumpla con el formato InetAddress se generara una
 	 * excepcion en el momento de la conexion.
-	 * <p>
+	 * </p>
 	 * 
 	 * @param rhost : String : Host remoto.
 	 */
@@ -105,7 +121,6 @@ public class Telnet implements Parametros {
 
 	/**
 	 * Puerto Telnet de la maquina remota.
-	 * <p>
 	 * 
 	 * @return int : Puerto remoto.
 	 */
@@ -115,7 +130,6 @@ public class Telnet implements Parametros {
 
 	/**
 	 * Puerto Telnet de la maquina remota.
-	 * <p>
 	 * 
 	 * @param rport : int : Puerto remoto.
 	 */
@@ -125,7 +139,6 @@ public class Telnet implements Parametros {
 
 	/**
 	 * Tiempo que esperara para la ejecucion de un comando y recibir respuesta.
-	 * <p>
 	 * 
 	 * @return int : tiempo en milisegundos.
 	 */
@@ -135,7 +148,6 @@ public class Telnet implements Parametros {
 
 	/**
 	 * Tiempo que esperara para la ejecucion de un comando y recibir respuesta.
-	 * <p>
 	 * 
 	 * @param milisegundos : int : El valor se establece en milisegundos.
 	 */
@@ -148,9 +160,11 @@ public class Telnet implements Parametros {
 	 * <p>
 	 * La funcionalidad Linger establece un tiempo de espera para terminar de enviar
 	 * y recibir los datos antes de cerrar definitivamente la conexion.
+	 * </p>
 	 * <p>
 	 * El tiempo se expresa en segundos. En caso de que su valor sea cero indica que
 	 * se deshabilita esta funcionalidad.
+	 * </p>
 	 * 
 	 * @return int : Tiempo de Linger expresado en segundos.
 	 */
@@ -163,9 +177,11 @@ public class Telnet implements Parametros {
 	 * <p>
 	 * La funcionalidad Linger establece un tiempo de espera para terminar de enviar
 	 * y recibir los datos antes de cerrar definitivamente la conexion.
+	 * </p>
 	 * <p>
 	 * El tiempo se expresa en segundos. En caso de que su valor sea cero indica que
 	 * se deshabilita esta funcionalidad.
+	 * </p>
 	 * 
 	 * @param segundos : int : Tiempo de Linger expresados en segundos
 	 */

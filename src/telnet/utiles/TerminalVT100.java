@@ -3,6 +3,10 @@ package telnet.utiles;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
+/**
+ * @author dmuelas1
+ *
+ */
 public final class TerminalVT100 {
 	private static int currentRow = 0;
 	private static int currentCol = 0;
@@ -11,6 +15,12 @@ public final class TerminalVT100 {
 	private static int tempRow = 0;
 	private static int tempCol = 0;
 
+	/**
+	 * Gestion de los comando recibidos desde la consola VT100
+	 * 
+	 * @param buffer : String : Bloque de datos recibidos desde la terminal VT100.
+	 * @return Retorna una cadena filtrada.
+	 */
 	public static final String parseVT100(String buffer) {
 
 		ByteArrayInputStream in = new ByteArrayInputStream(buffer.getBytes());
@@ -84,10 +94,6 @@ public final class TerminalVT100 {
 			c = in.read();
 		}
 		return 0;
-	}
-
-	public static void main(String[] args) {
-		new TerminalVT100();
 	}
 
 }

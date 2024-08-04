@@ -5,11 +5,20 @@ import telnet.constantes.Opciones;
 import telnet.constantes.Parametros;
 import telnet.constantes.Terminales;
 
+/**
+ * Gestion del comando WONT
+ * 
+ * @author dmuelas1
+ *
+ */
 public class ComandoWONT extends Elemento implements Comandos, Opciones, Terminales, Parametros {
 	private boolean comandoCompletado = false;
 	private boolean mePreguntaronECHO = false;
 	private boolean mePreguntaronGA = false;
 
+	/**
+	 * Gestion del comando WONT
+	 */
 	public ComandoWONT() {
 		super();
 		super.setOpcionNegociacion(IAC);

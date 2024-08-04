@@ -12,6 +12,10 @@ import telnet.utiles.GestionOpciones;
 import telnet.utiles.Utiles;
 import telnet.constantes.*;
 
+/**
+ * @author dmuelas1
+ *
+ */
 public class TelnetClient extends Telnet {
 
 	private Socket miSocket;
@@ -22,13 +26,15 @@ public class TelnetClient extends Telnet {
 	private GestionNegociacionListado bufferFifo;
 	private Gestion gestion;
 
+	/**
+	 * Gestion de la conexion del cliente.
+	 */
 	public TelnetClient() {
 		super();
 	}
 
 	/**
 	 * Retorna el estado de la conexion.
-	 * <p>
 	 * 
 	 * @return boolean : retorna cierto si la conexion esta activa y el socket aun
 	 *         esta abierto. Retorna falso en caso contrario.
@@ -43,6 +49,8 @@ public class TelnetClient extends Telnet {
 
 	/**
 	 * Desconecta el socket y el flujo de entrada y salida.
+	 * 
+	 * @throws IOException Si ocurre un fallo de E/S.
 	 */
 	public synchronized void disconnect() throws IOException {
 		try {
@@ -60,7 +68,6 @@ public class TelnetClient extends Telnet {
 
 	/**
 	 * Establece una conexion con la maquina remota.
-	 * <p>
 	 * 
 	 * @param remoteHost : IP de la maquina remota. Especificar un valor nulo es
 	 *                   equivalente a especificar una dirección de la interfaz
@@ -77,7 +84,6 @@ public class TelnetClient extends Telnet {
 
 	/**
 	 * Establece una conexion con la maquina remota.
-	 * <p>
 	 * 
 	 * @param remoteHost : IP de la maquina remota. Especificar un valor nulo es
 	 *                   equivalente a especificar una dirección de la interfaz
@@ -91,7 +97,6 @@ public class TelnetClient extends Telnet {
 
 	/**
 	 * Establece una conexion con la maquina remota.
-	 * <p>
 	 * 
 	 * @throws IOException : En caso de que se haya producido algun error.
 	 */
@@ -140,12 +145,9 @@ public class TelnetClient extends Telnet {
 
 	/**
 	 * Escribe el comando que queremos ejecutar en la maquina remota.
-	 * <p>
 	 * 
 	 * @param comando : los datos a escribir.
-	 *                <p>
 	 * @throws IOException : si se produce un error de E/S.
-	 *                     <p>
 	 */
 	public synchronized void write(String comando) throws IOException {
 		super.setComando(comando);
@@ -157,15 +159,21 @@ public class TelnetClient extends Telnet {
 	 * <p>
 	 * Realiza una lectura del flujo procedente de la maquina remota hasta encontrar
 	 * el simbolo del sistema
-	 * <p>
+	 * </p>
 	 * 
 	 * @return String : texto recibido desde la maquina remota.
 	 * @throws IOException :
-	 *                     <li type="disc">Si el primer byte no se puede leer por
-	 *                     algún motivo que no sea el final del archivo.</li>
-	 *                     <li type="disc">La secuencia se ha cerrado por lo que ya
-	 *                     no admite la lectura.</li>
-	 *                     <li type="disc">Porque se produce un error de E/S.</li>
+	 *                     <p>
+	 *                     Si el primer byte no se puede leer por algún motivo que
+	 *                     no sea el final del archivo.
+	 *                     </p>
+	 *                     <p>
+	 *                     La secuencia se ha cerrado por lo que ya no admite la
+	 *                     lectura.
+	 *                     </p>
+	 *                     <p>
+	 *                     Porque se produce un error de E/S.
+	 *                     </p>
 	 */
 	public synchronized String read() throws IOException {
 		return Utiles.lecturasDatos(flujoEntrada, new String[] { PROMPT_LINUX, PROMPT_WINDOWS });

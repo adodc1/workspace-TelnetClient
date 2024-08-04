@@ -7,9 +7,18 @@ import telnet.constantes.Opciones;
 import telnet.constantes.Parametros;
 import telnet.constantes.Terminales;
 
+/**
+ * Gestion del comando SB
+ * 
+ * @author dmuelas1
+ *
+ */
 public class ComandoSB extends Elemento implements Comandos, Opciones, Terminales, Parametros {
 	private boolean comandoCompletado = false;
 
+	/**
+	 * Gestion del comando SB
+	 */
 	public ComandoSB() {
 		super();
 		super.setOpcionNegociacion(IAC);

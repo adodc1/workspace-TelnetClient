@@ -5,11 +5,20 @@ import telnet.constantes.Opciones;
 import telnet.constantes.Parametros;
 import telnet.constantes.Terminales;
 
+/**
+ * Gestion del comando WILL
+ * 
+ * @author dmuelas1
+ *
+ */
 public class ComandoWILL extends Elemento implements Comandos, Opciones, Terminales, Parametros {
 	private boolean mePreguntaronECHO = false;
 	private boolean mePreguntaronGA = false;
 	private boolean comandoCompletado = false;
 
+	/**
+	 * Gestion del comando WILL
+	 */
 	public ComandoWILL() {
 		super();
 		super.setOpcionNegociacion(IAC);

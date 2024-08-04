@@ -5,11 +5,20 @@ import telnet.constantes.Opciones;
 import telnet.constantes.Parametros;
 import telnet.constantes.Terminales;
 
+/**
+ * Gestion del comando DONT
+ * 
+ * @author dmuelas1
+ *
+ */
 public class ComandoDONT extends Elemento implements Comandos, Opciones, Terminales, Parametros {
 	private boolean comandoCompletado = false;
 	private boolean mePreguntaronECHO = false;
 	private boolean mePreguntaronGA = false;
 
+	/**
+	 * Gestion del comando DONT
+	 */
 	public ComandoDONT() {
 		super();
 		super.setOpcionNegociacion(IAC);
