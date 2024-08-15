@@ -23,6 +23,9 @@ public final class TerminalVT100 {
 	 */
 	public static final String parseVT100(String buffer) {
 
+		currentRow = 0;
+		currentCol = 0;
+
 		ByteArrayInputStream in = new ByteArrayInputStream(buffer.getBytes());
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		terminal(in, out, 0);
