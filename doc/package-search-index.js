@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"controlVersiones"},{"l":"telnet"},{"l":"telnet.constantes"},{"l":"telnet.gestionNegociacion"},{"l":"telnet.utiles"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"telnet"}];updateSearchResults();

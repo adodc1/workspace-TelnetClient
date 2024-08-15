@@ -1,4 +1,4 @@
-package controlVersiones;
+package telnet.controlVersiones;
 
 /**
  * @author dmuelas1

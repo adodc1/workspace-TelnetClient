@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="javadoc">
     <target name="javadoc">
-        <javadoc access="public" author="true" classpath="." destdir="doc" doctitle="ElzerTelnetDoc" nodeprecated="true" nodeprecatedlist="true" noindex="false" nonavbar="false" notree="false" packagenames="telnet.constantes,telnet.gestionNegociacion,telnet,telnet.utiles,controlVersiones" source="1.7" sourcepath="src" splitindex="true" use="true" version="true">
-            <link href="file:/Users/dmuelas1/git/workspace-TelnetClient/doc/"/>
-        </javadoc>
+        <javadoc access="public" author="true" classpath="." destdir="doc" nodeprecated="true" nodeprecatedlist="true" noindex="false" nonavbar="false" notree="false" packagenames="telnet" source="1.7" sourcepath="src" splitindex="true" use="true" version="true"/>
     </target>
 </project>
