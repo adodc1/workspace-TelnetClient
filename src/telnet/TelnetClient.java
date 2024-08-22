@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
@@ -26,11 +28,18 @@ public class TelnetClient extends Telnet {
 	private GestionNegociacionListado bufferFifo;
 	private Gestion gestion;
 
+	private final StringBuffer flujoEventos;
+
 	/**
 	 * Gestion de la conexion del cliente.
 	 */
 	public TelnetClient() {
 		super();
+		this.flujoEventos = new StringBuffer();
+	}
+
+	public StringBuffer getFlujoEventos() {
+		return this.flujoEventos;
 	}
 
 	/**
@@ -62,7 +71,10 @@ public class TelnetClient extends Telnet {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			this.flujoEventos.append(sw.toString());
 		}
 	}
 
@@ -122,7 +134,7 @@ public class TelnetClient extends Telnet {
 				this.flujoSalida = new DataOutputStream(miSocket.getOutputStream());
 				this.flujoEntrada = new DataInputStream(miSocket.getInputStream());
 
-				this.gestion = new Gestion(bufferFifo, flujoEntrada, flujoSalida);
+				this.gestion = new Gestion(bufferFifo, flujoEntrada, flujoSalida, flujoEventos);
 
 				this.threadLectura = new ThreadLectura(this.gestion);
 				this.threadLectura.start();
@@ -216,9 +228,12 @@ public class TelnetClient extends Telnet {
 	}
 
 	protected class Gestion {
+
 		private final GestionNegociacionListado bufferFifo;
 		private final DataInputStream flujoEntrada;
 		private final DataOutputStream flujoSalida;
+
+		private final StringBuffer flujoEventos;
 
 		private String usuario = "";
 		private String password = "";
@@ -228,11 +243,13 @@ public class TelnetClient extends Telnet {
 		private boolean isPassword = false;
 		private boolean escribiendo = false;
 
-		public Gestion(GestionNegociacionListado buffer, DataInputStream flujoEntrada, DataOutputStream flujoSalida) {
+		public Gestion(GestionNegociacionListado buffer, DataInputStream flujoEntrada, DataOutputStream flujoSalida,
+				final StringBuffer flujoEventos) {
 			super();
 			this.bufferFifo = buffer;
 			this.flujoEntrada = flujoEntrada;
 			this.flujoSalida = flujoSalida;
+			this.flujoEventos = flujoEventos;
 		}
 
 		public void setUsuario(String usuario) {
@@ -245,6 +262,16 @@ public class TelnetClient extends Telnet {
 
 		public boolean isConectado() {
 			return this.isConectado;
+		}
+
+		/**
+		 * Todos los eventos que se acumulan durante la transmision se guardan en un
+		 * buffer.
+		 * 
+		 * @return Retorna una cadena con todos los eventos ocurridos.
+		 */
+		public final String getFlujoEventos() {
+			return this.flujoEventos.toString();
 		}
 
 		public synchronized void Pregunta() {
@@ -316,15 +343,26 @@ public class TelnetClient extends Telnet {
 				} while (flujoEntrada.available() > 0);
 
 				if (indice > 0) {
-					Utiles.lecturasOpciones(buffer, indice);
+					Utiles.lecturasOpciones(buffer, indice, this.flujoEventos);
 				}
 
 			} catch (EOFException e) {
-				e.printStackTrace();
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				this.flujoEventos.append(sw.toString());
+
 			} catch (IOException e) {
-				e.printStackTrace();
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				this.flujoEventos.append(sw.toString());
+
 			} catch (InterruptedException e) {
-				//
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				this.flujoEventos.append(sw.toString());
 			}
 
 			escribiendo = true;
@@ -350,7 +388,7 @@ public class TelnetClient extends Telnet {
 
 					if (comando instanceof DatoRecibido) {
 
-						System.out.println(comando.toString());
+						this.flujoEventos.append(comando.toString());
 
 						if (!this.isLogin && Utiles.filtroPatron(comando.toString(), new String[] { LOGIN })) {
 							flujoSalida.writeBytes(this.usuario);
@@ -377,15 +415,22 @@ public class TelnetClient extends Telnet {
 				} while (!this.bufferFifo.isEmpty());
 
 				if (indice > 0) {
-					Utiles.escrituraOpciones(buffer, indice);
+					Utiles.escrituraOpciones(buffer, indice, this.flujoEventos);
 					flujoSalida.write(buffer, 0, indice);
 					flujoSalida.flush();
 				}
 
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				this.flujoEventos.append(sw.toString());
+
 			} catch (IOException e) {
-				e.printStackTrace();
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				this.flujoEventos.append(sw.toString());
 			}
 
 			escribiendo = !this.bufferFifo.isEmpty();
@@ -403,7 +448,10 @@ public class TelnetClient extends Telnet {
 				}
 
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				this.flujoEventos.append(sw.toString());
 			}
 
 			escribiendo = true;
@@ -422,7 +470,10 @@ public class TelnetClient extends Telnet {
 				}
 
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				this.flujoEventos.append(sw.toString());
 			}
 
 			escribiendo = true;

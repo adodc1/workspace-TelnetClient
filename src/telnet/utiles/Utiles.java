@@ -95,30 +95,32 @@ public final class Utiles implements Comandos, Opciones, Terminales, Parametros 
 	/**
 	 * Interpreta los comandos procedentes del servidor.
 	 * 
-	 * @param buffer : byte : Bloque de datos.
+	 * @param buffer   : byte : Bloque de datos.
 	 * @param cantidad : int : Candidad de datos.
 	 */
-	public final static synchronized void lecturasOpciones(final byte[] buffer, int cantidad) {
-		System.out.println("From SRV:");
-		composicionOpciones(buffer, cantidad);
+	public final static synchronized void lecturasOpciones(final byte[] buffer, int cantidad,
+			StringBuffer flujoEventos) {
+		flujoEventos.append("From SRV:");
+		composicionOpciones(buffer, cantidad, flujoEventos);
 	}
 
 	/**
 	 * Interpreta los comandos procedentes del cliente.
 	 * 
-	 * @param buffer : byte : Bloque de datos.
+	 * @param buffer   : byte : Bloque de datos.
 	 * @param cantidad : int : Candidad de datos.
 	 */
-	public final static synchronized void escrituraOpciones(final byte[] buffer, int cantidad) {
-		System.out.println("From CLI:");
-		composicionOpciones(buffer, cantidad);
+	public final static synchronized void escrituraOpciones(final byte[] buffer, int cantidad,
+			StringBuffer flujoEventos) {
+		flujoEventos.append("From CLI:");
+		composicionOpciones(buffer, cantidad, flujoEventos);
 	}
 
 	/**
 	 * Envia un comando por el canal de salida.
 	 * 
-	 * @param flujoSalida : DataOutputStream : Buffer de datos del sistema. 
-	 * @param comando : String : Comando para enviar.
+	 * @param flujoSalida : DataOutputStream : Buffer de datos del sistema.
+	 * @param comando     : String : Comando para enviar.
 	 * @throws IOException En casi de existir un fallo de E/S
 	 */
 	public final static synchronized void escrituraDatos(final DataOutputStream flujoSalida, String comando)
@@ -139,7 +141,7 @@ public final class Utiles implements Comandos, Opciones, Terminales, Parametros 
 		}
 	}
 
-	private static void composicionOpciones(final byte[] buffer, int cantidad) {
+	private static void composicionOpciones(final byte[] buffer, int cantidad, StringBuffer flujoEventos) {
 
 		int nivel = 0;
 
@@ -148,22 +150,21 @@ public final class Utiles implements Comandos, Opciones, Terminales, Parametros 
 			byte b = buffer[i];
 
 			if (b == -1) {
-				System.out.print(commandString[-b] + " ");
+				flujoEventos.append(commandString[-b] + " ");
 				nivel = 0;
 			} else if (b < 0 && nivel == 0) {
-				System.out.print(commandString[-b] + " ");
+				flujoEventos.append(commandString[-b] + " ");
 				nivel++;
 			} else if (b < 40 && nivel == 1) {
-				System.out.print(optionString[b] + " ");
+				flujoEventos.append(optionString[b] + " ");
 				nivel++;
 			} else if (nivel == 2) {
-				System.out.print(terminalString[b] + " ");
+				flujoEventos.append(terminalString[b] + " ");
 				nivel++;
 			} else {
-				System.out.print((char) b + " ");
+				flujoEventos.append((char) b + " ");
 			}
 		}
-		System.out.println();
 	}
 
 }
