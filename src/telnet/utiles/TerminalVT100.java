@@ -61,6 +61,7 @@ public final class TerminalVT100 {
 
 				} else {
 					if ((char) c == '\n') {
+						out.write((char) c);
 						currentRow++;
 						currentCol = 0;
 						
