@@ -31,7 +31,6 @@ public final class TerminalVT100 {
 		terminal(in, out, 0);
 
 		return out.toString();
-
 	}
 
 	private static final int terminal(ByteArrayInputStream in, ByteArrayOutputStream out, int nivel) {
@@ -61,13 +60,15 @@ public final class TerminalVT100 {
 					}
 
 				} else {
-					// Guardamos los caracteres de forma secuencial en el buffer.
 					if ((char) c == '\n') {
 						currentRow++;
 						currentCol = 0;
+						
+					} else if (isPrintableChar((char) c)) {
+						// Guardamos los caracteres de forma secuencial en el buffer.
+						out.write((char) c);
+						currentCol++;
 					}
-					out.write((char) c);
-					currentCol++;
 				}
 
 			} else if (nivel == 1) {
@@ -97,6 +98,12 @@ public final class TerminalVT100 {
 			c = in.read();
 		}
 		return 0;
+	}
+
+	private static boolean isPrintableChar(char c) {
+		// Verifica si el carácter no es un carácter de control y está dentro del rango
+		// imprimible
+		return !Character.isISOControl(c) && c != '\uFFFD';
 	}
 
 }
